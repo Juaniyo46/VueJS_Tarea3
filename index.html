@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!--CSS Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container" id="contenido">
+        <h2>Nombre:</h2>
+        <input
+        v-model="newName"
+        v-on:keyup.enter="addNew"
+        placeholder="añadir Nombre">
+
+        <ul class="list-group">
+            <li v-for="todo in todos" class="list-group-item">
+                {{todo.name}} : votos = {{todo.voto}} 
+                <button @click="votacion($index)">Votar</button>
+            </li>
+        </ul>
+
+        <h3>El más votado es: {{max}}</h3>
+    </div>
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.js"></script>
+<script type="text/javascript">
+
+
+    new Vue({
+        el:"#contenido",
+        data: {
+            newName:'',
+            todos:[] 
+        },
+        methods: {
+            addNew: function(){
+
+                if(this.newName == "c"){
+                    this.todos.forEach(function(element,index){
+                        element.voto = 0;
+                    })
+                }else{
+                    this.todos.push({name:this.newName, voto : 0});
+                }
+
+            },
+            votacion: function(index){
+                this.todos[index].voto++;
+            }
+            
+        },
+        computed: {
+            max:function(){
+                max = 0;
+                nombre = "";
+                this.todos.forEach(function (element,index) {
+                    if(max < element.voto){
+                        max = element.voto
+                        nombre = element.name
+                    }
+                });
+                return nombre;
+                }
+            }
+        });
+
+</script>
+</html>
